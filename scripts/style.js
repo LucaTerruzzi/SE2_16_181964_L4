@@ -10,4 +10,6 @@ function showForm(form){
     }else{
         document.getElementById("user_form").style.display = "none";
     }
+    
+    document.getElementById("message").innerHTML = "";
 }

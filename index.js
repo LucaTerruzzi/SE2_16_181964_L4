@@ -34,7 +34,8 @@ app.use('/search', function(request, response) {
     
     //store result of the search
     var employee;
-    
+        
+    //If post body is not empty
 	if ( typeof request.body !== 'undefined' && request.body) {
 		
 		//if query is defined and not null
@@ -55,7 +56,6 @@ app.use('/search', function(request, response) {
         });
 });
 
-
 //Set server for adding user
 app.use('/add', function(request, response) {
     //set the headers of the responce
@@ -67,9 +67,13 @@ app.use('/add', function(request, response) {
     //store result of the search
     var employee;
     
+    //If post body is not empty
 	if ( typeof request.body !== 'undefined' && request.body) {
 		//data from the form
         var id, name, surname, level, salary;
+        
+        //message to be shown on the page
+        var message;
         
         //id can be null or undefined
         id = request.body.add_id;
@@ -85,7 +89,10 @@ app.use('/add', function(request, response) {
             surname = request.body.surname;
             level = request.body.level;
             salary = request.body.salary;
-            data.addEmployee(id, name, surname, level, salary);
+            //add/modify the employee
+            message = data.addEmployee(id, name, surname, level, salary);
+        }else{
+            message = "Nothing added. Check your parameters.";
         }
 
 		
@@ -93,13 +100,45 @@ app.use('/add', function(request, response) {
 
     
     //fill template and send as response
-	bind.toFile('home.tpl', {showForm : false}, 
+	bind.toFile('home.tpl', {showForm : false, message : message}, 
         function(data) {
             //write response
             response.end(data);
         });
 });
 
+//Set server for deleting user
+app.use('/delete', function(request, response) {
+    //set the headers of the responce
+    var headers = {};
+    //answer
+    headers["Content-Type"] = "text/html";
+    response.writeHead(200, headers);
+            
+    //message to be shown on the page
+    var message;
+    
+    //If post body is not empty
+	if ( typeof request.body !== 'undefined' && request.body) {
+		
+		//if query is defined and not null
+		if ( typeof request.body.delete_id !== 'undefined' && request.body.delete_id){
+            //delete employee
+            message = data.deleteEmployee(request.body.delete_id);
+        }
+
+		
+	}
+
+    
+    //fill template and send as response
+	bind.toFile('home.tpl', {showForm : false, message : message}, 
+        function(data) {
+            //write response
+            response.end(data);
+        });
+    
+});
 
 //Set server for base request
 app.use('/', function(request, response) {

@@ -18,6 +18,13 @@
             <input type="number" name="search_id" min="0">
             <input type="submit" value="Search">
         </form>
+        
+        <form method="post" action="/delete">
+            Delete employee <br>
+            <input type="number" name="delete_id" min="0">
+            <input type="submit" value="Delete">
+        </form>
+            
             
     
         <button onclick="showForm()">Add employee</button>
@@ -31,12 +38,7 @@
             Salary: <input type="number" name="salary" min="0" value="(:employee ~ [:salary:]:)"><br>
             <input type="submit" value="Submit">
         </form>      
-    <!--
-    (:if[resident] ~
-        [:then ~ <font color="green"> sei residente </font> :]
-        [:else ~ <font color="red"> non sei residente</font> :]
-    :)
-       -->
+        <p id="message">(:message:)</p>
     <script src="scripts/style.js"></script>
     </body>
 </html>

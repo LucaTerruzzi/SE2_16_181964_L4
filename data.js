@@ -63,17 +63,19 @@ function searchEmployee(id){
  * @param [in] string surname Surname of the employee.
  * @param [in] int level Level of the employee.
  * @param [in] int salary Salary of the employee.
+ * @return feedback message.
  */
 function addEmployee(id, name, surname, level, salary){
     //parameters validity check
     if(id < 0 || name === '' || surname === '' || level < 0 || salary < 0){
-        return;
+        return "Nothing added. Check your parameters.";
     }
     //if id not specified
     if(!id){
         //add employee with first available id
         findNext();
         employees.push(new Employee(nextId, name, surname, level, salary));
+        return "Added new employee with ID: " + nextId;
     }else{
         var employee = searchEmployee(id);
         if(employee != null){
@@ -81,12 +83,29 @@ function addEmployee(id, name, surname, level, salary){
             employee.surname = surname;
             employee.level = level;
             employee.salary = salary;
+            return "Modified employee with ID: " + id;
         }else{
             employees.push(new Employee(id, name, surname, level, salary));
+            return "Created new employee with ID: " + id;
         }
     }
 }
 
+/**
+ * @brief Delete an employee from the storage if present.
+ * @param [in] int id Id of the employee to be deleted.
+ * @return feedback message.
+ */
+function deleteEmployee(id){
+    for(var i in employees){
+        if(employees[i] != null && employees[i].id == id){
+            employees.splice(i, 1);
+            nextId = id;
+            return "Deleted employee whith ID: " + id;
+        }
+    }
+    return "Nothing to delete, ID not present.";
+}
 
 //Export loadDeafaults function to use it in files which import this module
 exports.loadDeafults = loadDefaults;
@@ -94,3 +113,5 @@ exports.loadDeafults = loadDefaults;
 exports.searchEmployee = searchEmployee;
 //Export addEmployee function to use it in files which import this module
 exports.addEmployee = addEmployee;
+//Export deleteEmployee function to use it in files which import this module
+exports.deleteEmployee = deleteEmployee;
