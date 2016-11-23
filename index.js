@@ -48,7 +48,7 @@ app.use('/search', function(request, response) {
 
     
     //fill template and send as response
-	bind.toFile('home.tpl', employee, 
+	bind.toFile('home.tpl', {employee : employee, showForm : true}, 
         function(data) {
             //write response
             response.end(data);
@@ -64,7 +64,7 @@ app.use('/', function(request, response) {
     response.writeHead(200, headers);
  
     //fill template and send as response
-	bind.toFile('home.tpl', null, 
+	bind.toFile('home.tpl', {showForm : false}, 
         function(data) 
         {
             //write response
