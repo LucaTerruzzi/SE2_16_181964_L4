@@ -22,9 +22,9 @@
     
         <button onclick="showForm()">Add employee</button>
         
-        <form method="post" action="index.js" id="user_form" style=" display:(:if[showForm] ~ [:then ~ block:] [:else ~ none:]:)">
+        <form method="post" action="/add" id="user_form" style=" display:(:if[showForm] ~ [:then ~ block:] [:else ~ none:]:)">
             Employee details <br>
-            ID: <input type="number" name="id" min="0" value="(:employee ~ [:id:]:)"><br>
+            ID: <input type="number" name="add_id" min="0" value="(:employee ~ [:id:]:)"><br>
             Name: <input type="text" name="name" value="(:employee ~ [:name:]:)"><br>
             Surname: <input type="text" name="surname" value="(:employee ~ [:surname:]:)"><br>
             Level: <input type="number" name="level" min="0" value="(:employee ~ [:level:]:)"><br>

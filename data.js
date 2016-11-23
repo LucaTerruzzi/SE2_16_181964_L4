@@ -32,6 +32,15 @@ function loadDefaults(){
 }
 
 /**
+ * @brief Find next available id.
+ */
+function findNext(){
+    while(searchEmployee(nextId)){
+       nextId++; 
+    }
+}
+
+/**
  * @brief Search if an employee is present in the storage.
  * @param [in] int id Id of the employee to be searched.
  * @return Employee object if present, null otherwise.
@@ -39,7 +48,7 @@ function loadDefaults(){
 function searchEmployee(id){
     var employee = null;
     for(var i in employees){
-        if(employees[i].id == id){
+        if(employees[i] != null && employees[i].id == id){
             employee = employees[i];
             break;
         }
@@ -47,7 +56,41 @@ function searchEmployee(id){
     return employee;
 }
 
+/**
+ * @brief Add employee to the storage. If already present, edit it.
+ * @param [in] int id Id of the employee.
+ * @param [in] string name Name of the employee.
+ * @param [in] string surname Surname of the employee.
+ * @param [in] int level Level of the employee.
+ * @param [in] int salary Salary of the employee.
+ */
+function addEmployee(id, name, surname, level, salary){
+    //parameters validity check
+    if(id < 0 || name === '' || surname === '' || level < 0 || salary < 0){
+        return;
+    }
+    //if id not specified
+    if(!id){
+        //add employee with first available id
+        findNext();
+        employees.push(new Employee(nextId, name, surname, level, salary));
+    }else{
+        var employee = searchEmployee(id);
+        if(employee != null){
+            employee.name = name;
+            employee.surname = surname;
+            employee.level = level;
+            employee.salary = salary;
+        }else{
+            employees.push(new Employee(id, name, surname, level, salary));
+        }
+    }
+}
+
+
 //Export loadDeafaults function to use it in files which import this module
 exports.loadDeafults = loadDefaults;
-//Export search function to use it in files which import this module
+//Export searchEmployee function to use it in files which import this module
 exports.searchEmployee = searchEmployee;
+//Export addEmployee function to use it in files which import this module
+exports.addEmployee = addEmployee;

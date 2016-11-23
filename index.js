@@ -55,6 +55,52 @@ app.use('/search', function(request, response) {
         });
 });
 
+
+//Set server for adding user
+app.use('/add', function(request, response) {
+    //set the headers of the responce
+    var headers = {};
+    //answer
+    headers["Content-Type"] = "text/html";
+    response.writeHead(200, headers);
+    
+    //store result of the search
+    var employee;
+    
+	if ( typeof request.body !== 'undefined' && request.body) {
+		//data from the form
+        var id, name, surname, level, salary;
+        
+        //id can be null or undefined
+        id = request.body.add_id;
+        
+		//if all other parameters are defined
+		if ( typeof request.body.name !== 'undefined' && request.body.name &&
+            typeof request.body.surname !== 'undefined' && request.body.surname &&
+            typeof request.body.level !== 'undefined' && request.body.level &&
+            typeof request.body.salary !== 'undefined' && request.body.salary){
+            
+            //save parameters
+            name = request.body.name;
+            surname = request.body.surname;
+            level = request.body.level;
+            salary = request.body.salary;
+            data.addEmployee(id, name, surname, level, salary);
+        }
+
+		
+	}
+
+    
+    //fill template and send as response
+	bind.toFile('home.tpl', {showForm : false}, 
+        function(data) {
+            //write response
+            response.end(data);
+        });
+});
+
+
 //Set server for base request
 app.use('/', function(request, response) {
     //set the headers of the responce
